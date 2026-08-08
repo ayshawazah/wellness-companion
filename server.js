@@ -12,10 +12,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.redirect('/index.html');
-});
-
 app.use(express.static("public"));
 app.post("/register", async (req, res) => {
     try {
@@ -110,9 +106,10 @@ app.get("/dashboard", async (req, res) => {
     });
 
 });
-mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/wellnessDB")
+mongoose.connect("process.env.MONGODB_URI")
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at port${PORT}`);
 });
+require("dotenv").config();
