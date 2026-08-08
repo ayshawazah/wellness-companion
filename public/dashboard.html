@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Wellness Companion</title>
+<style>
+  :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --card:#fff; --text:#233; --muted:#6b7a86; }
+  * { box-sizing: border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+  body { background: var(--bg); color: var(--text); }
+  .page { display: flex; min-height: 100vh; }
+  .sidebar { width: 260px; background: linear-gradient(180deg, var(--teal) 0%, #0c8f8f 100%); color: white; padding: 24px 18px; position: sticky; top:0; height:100vh; }
+  .sidebar h2 { font-size: 1.35rem; margin-bottom: 28px; text-align:center; }
+  .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .sidebar a { color:white; display:block; padding:12px 14px; border-radius:10px; text-decoration:none; font-weight:600; }
+  .sidebar a:hover { background: rgba(255,255,255,0.16); }
+  .main { flex:1; padding: 28px; }
+  .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+  .topbar h1 { color: var(--teal-dark); }
+  .chip { background: white; padding: 10px 16px; border-radius: 999px; color: var(--teal-dark); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+  .grid { display:grid; gap:18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background: var(--card); padding: 20px; border-radius: 18px; box-shadow: 0 10px 24px rgba(0,0,0,0.06); }
+  .card h3 { color: var(--teal); margin-bottom: 10px; }
+  .card p { color: var(--muted); margin-top: 6px; }
+  .stat-number { font-size: 1.6rem; font-weight: 800; color: var(--teal-dark); margin-bottom: 6px; }
+  .progress { height: 10px; background: #e8f4f3; border-radius: 999px; overflow:hidden; margin-top: 10px; }
+  .progress > div { height:100%; background: linear-gradient(90deg, #00b894, #00cec9); width: 72%; }
+  .panel { margin-top: 20px; background: white; border-radius: 18px; padding: 20px; box-shadow: 0 10px 24px rgba(0,0,0,0.06); }
+  .panel ul { margin-top: 12px; padding-left: 18px; color: var(--muted); }
+  .pill { display:inline-block; background:#eaf8f7; color:var(--teal-dark); padding:6px 10px; border-radius:999px; font-size:0.85rem; margin-top:8px; }
+  .progress-section { display:grid; grid-template-columns: 1.2fr 0.8fr; gap:18px; margin-top: 20px; }
+  .mini-chart { margin-top: 12px; }
+  .productivity-list { display:grid; gap:10px; margin-top: 12px; }
+  .productivity-item { display:flex; justify-content:space-between; align-items:center; background:#f9fcfd; padding:10px 12px; border-radius:10px; color: var(--muted); }
+  .productivity-item strong { color: var(--teal-dark); }
+  footer { margin-top: 24px; text-align:center; color: var(--muted); font-size: 0.95rem; }
+  @media (max-width: 860px) { .page { flex-direction: column; } .sidebar { width: 100%; height:auto; position:relative; } .progress-section { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <h2>🌿 Wellness Hub</h2>
+      <ul>
+        <li><a href="dashboard.html">🏠 Dashboard</a></li>
+        <li><a href="mood.html">😊 Mood Tracker</a></li>
+        <li><a href="journal.html">📖 Journal</a></li>
+        <li><a href="goal.html">🎯 Goals</a></li>
+        <li><a href="calendar.html">📅 Calendar</a></li>
+        <li><a href="resources.html">💡 Resources</a></li>
+        <li><a href="contact.html">📞 Contact</a></li>
+        <li><a href="login.html">🚪 Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <h1>Welcome back, User 👋</h1>
+        <div class="chip">Today is a fresh chance to care for yourself</div>
+      </div>
+
+      <section class="grid">
+        <div class="card">
+          <h3>😊 Mood today</h3>
+          <div class="stat-number">Calm</div>
+          <p>You’re feeling centered and balanced.</p>
+        </div>
+        <div class="card">
+          <h3>🎯 Daily goals</h3>
+          <p>✔ Drink water</p>
+          <p>✔ 20 minutes of movement</p>
+          <p>⬜ 10 minutes of reflection</p>
+        </div>
+        <div class="card">
+          <h3>📖 Journal</h3>
+          <p>New entry ready for today’s reflection.</p>
+          <span class="pill">3 recent journal entries</span>
+        </div>
+        <div class="card">
+          <h3>💧 Water goal</h3>
+          <div class="stat-number">6 / 8 glasses</div>
+          <div class="progress"><div></div></div>
+        </div>
+      </section>
+
+      <section class="progress-section">
+        <div class="card">
+          <h3>📈 Weekly progress</h3>
+          <p>Your consistency is improving across the week.</p>
+          <svg class="mini-chart" viewBox="0 0 320 140" width="100%" height="140">
+            <line x1="20" y1="110" x2="300" y2="110" stroke="#dce8e6" stroke-width="2"/>
+            <line x1="20" y1="20" x2="20" y2="110" stroke="#dce8e6" stroke-width="2"/>
+            <polyline points="20,90 80,75 140,60 200,45 260,30 300,20" fill="none" stroke="#008080" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle cx="20" cy="90" r="4" fill="#008080"/>
+            <circle cx="80" cy="75" r="4" fill="#008080"/>
+            <circle cx="140" cy="60" r="4" fill="#008080"/>
+            <circle cx="200" cy="45" r="4" fill="#008080"/>
+            <circle cx="260" cy="30" r="4" fill="#008080"/>
+            <circle cx="300" cy="20" r="4" fill="#008080"/>
+          </svg>
+          <div class="pill">+18% from last week</div>
+        </div>
+
+        <div class="card">
+          <h3>⚡ Productivity tracking</h3>
+          <div class="productivity-list">
+            <div class="productivity-item"><strong>Focus time</strong><span>2h 15m</span></div>
+            <div class="productivity-item"><strong>Breaks taken</strong><span>4</span></div>
+            <div class="productivity-item"><strong>Reflection</strong><span>Completed</span></div>
+            <div class="productivity-item"><strong>Energy score</strong><span>8.4/10</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Wellness plan for today</h3>
+        <ul>
+          <li>Take 5 slow breaths before you start your day.</li>
+          <li>Write one line in your journal to capture your mood.</li>
+          <li>Complete one small goal to build momentum.</li>
+        </ul>
+      </section>
+
+      <footer>© 2026 Wellness Companion for Youth</footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellness Companion for Youth</title>
+<style>
+  :root {
+    --teal: #008080;
+    --teal-dark: #00695c;
+    --cream: #f6fcfb;
+    --text: #234;
+    --muted: #6b7a86;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Arial, sans-serif; }
+  body { background: linear-gradient(135deg, #f4fffc 0%, #f8fbff 100%); color: var(--text); line-height: 1.6; }
+  a { text-decoration: none; }
+
+  nav {
+    background: linear-gradient(90deg, var(--teal) 0%, #0b8f8f 100%);
+    padding: 18px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 10; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .logo { font-size: 1.45rem; font-weight: 800; color: white; }
+  nav ul { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+  nav ul li a { color: white; font-weight: 600; transition: color 0.2s ease; }
+  nav ul li a:hover { color: #ffe085; }
+
+  .hero {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 32px;
+    padding: 80px 6% 60px;
+  }
+  .welcome-line { display:inline-block; margin-bottom:12px; padding:8px 12px; background:#eafaf8; color:var(--teal-dark); border-radius:999px; font-weight:700; font-size:0.9rem; }
+  .hero h1 { font-size: clamp(2.1rem, 4vw, 3.2rem); color: var(--teal-dark); margin-bottom: 16px; }
+  .hero p { font-size: 1.08rem; color: var(--muted); margin-bottom: 26px; max-width: 620px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 13px 22px; border-radius: 999px; font-weight: 700; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .btn-primary { background: var(--teal); color: white; box-shadow: 0 10px 20px rgba(0,128,128,0.18); }
+  .btn-secondary { background: white; color: var(--teal-dark); border: 1px solid #dceef1; }
+  .btn:hover { transform: translateY(-2px); }
+  .hero img { width: 100%; max-width: 520px; justify-self: end; border-radius: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+
+  .section { padding: 70px 6%; }
+  .section-title { text-align: center; font-size: 2rem; color: var(--teal-dark); margin-bottom: 30px; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+  .card { background: white; padding: 24px; border-radius: 18px; box-shadow: 0 10px 24px rgba(0,0,0,0.06); border: 1px solid #eef6f6; }
+  .card h3 { color: var(--teal); margin-bottom: 10px; }
+  .card p { color: var(--muted); }
+
+  .about { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 30px; align-items: center; background: white; border-radius: 24px; padding: 30px; box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+  .about img { width: 100%; border-radius: 20px; }
+  .about h2 { color: var(--teal-dark); margin-bottom: 12px; }
+  .about p { color: var(--muted); font-size: 1rem; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 20px; }
+  .stat { background: linear-gradient(135deg, #ebfffc, #f8fbff); padding: 18px; border-radius: 16px; text-align: center; }
+  .stat strong { display: block; font-size: 1.4rem; color: var(--teal-dark); }
+
+  .quote { background: linear-gradient(90deg, var(--teal) 0%, #0c8f8f 100%); color: white; padding: 60px 6%; text-align: center; border-radius: 24px; margin: 0 6% 40px; }
+  .quote h2 { margin-bottom: 10px; }
+
+  footer { background: #174b4b; color: white; text-align: center; padding: 22px 6%; }
+
+  @media (max-width: 900px) {
+    .hero, .about { grid-template-columns: 1fr; }
+    .hero img { justify-self: center; }
+    nav { flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <div class="logo">🌿 Wellness Companion</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="mood.html">Mood Tracker</a></li>
+      <li><a href="goal.html">Goals</a></li>
+      <li><a href="calendar.html">Calendar</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="welcome-line" id="welcomeLine">Welcome to Wellness Companion</div>
+      <h1>Your wellness journey deserves a smarter companion.</h1>
+      <p>Track your mood, reflect in your journal, build healthy habits, and explore supportive resources in one calm, beautiful space designed for young people.</p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn btn-primary">Create an account</a>
+        <a href="dashboard.html" class="btn btn-secondary">Explore dashboard</a>
+      </div>
+    </div>
+    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=900" alt="Young person practicing calm wellness habits">
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">What you can do here</h2>
+    <div class="features-grid">
+      <div class="card">
+        <h3>😊 Mood Tracker</h3>
+        <p>Log how you feel each day and discover patterns that help you understand your emotional wellbeing.</p>
+      </div>
+      <div class="card">
+        <h3>📖 Journal</h3>
+        <p>Write freely about your thoughts and reflect on your progress with a private, calming space.</p>
+      </div>
+      <div class="card">
+        <h3>🎯 Goals</h3>
+        <p>Set healthy daily habits and celebrate each step as you build confidence and consistency.</p>
+      </div>
+      <div class="card">
+        <h3>💡 Resources</h3>
+        <p>Access guides for breathing, sleep, nutrition, mental health, and everyday self-care support.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="about">
+      <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800" alt="Meditation and reflection">
+      <div>
+        <h2>Designed for calmer, healthier habits</h2>
+        <p>Wellness Companion for Youth is made to support young people as they grow stronger mentally, emotionally, and physically. With daily check-ins, thoughtful reflections, and gentle guidance, it helps turn small habits into lasting wellness.</p>
+        <div class="stats">
+          <div class="stat"><strong>7+</strong><span>Wellness tools</span></div>
+          <div class="stat"><strong>100%</strong><span>Focus on care</span></div>
+          <div class="stat"><strong>24/7</strong><span>Support mindset</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <h2>Daily motivation</h2>
+    <p>“Small habits repeated with care create a big difference in how you feel every day.”</p>
+  </section>
+
+  <footer>
+    <p>© 2026 Wellness Companion for Youth · Built for healthy living</p>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get('username');
+    const welcomeLine = document.getElementById('welcomeLine');
+
+    if (username && welcomeLine) {
+      welcomeLine.textContent = 'Welcome back, ' + username + ' 👋';
+    }
+  </script>
+</body>
+</html>

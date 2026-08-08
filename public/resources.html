@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellness Resources</title>
+<style>
+  :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; }
+  * { box-sizing:border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+  body { background: linear-gradient(135deg,#f2fffc,#f7fbff); color:#233; }
+  header { background: linear-gradient(90deg, var(--teal), #0d8f8f); color:white; padding: 24px 6%; text-align:center; }
+  header h1 { font-size: 2rem; }
+  header p { margin-top:8px; opacity:0.95; }
+  .container { width:min(1200px,92%); margin: 30px auto 12px; }
+  .search-box { text-align:center; margin-bottom:22px; }
+  .search-box input { width:min(560px,100%); padding:12px 14px; border:2px solid #cfe7e5; border-radius:999px; font-size:1rem; }
+  .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .card { background:white; padding:20px; border-radius: 18px; box-shadow:0 10px 24px rgba(0,0,0,0.06); display:flex; flex-direction:column; justify-content:space-between; min-height:230px; }
+  .card h2 { color:var(--teal); margin-bottom: 8px; }
+  .card p { color:var(--muted); margin-bottom: 12px; line-height:1.6; }
+  .card .resource-action { display:inline-flex; align-items:center; justify-content:center; background:var(--teal); color:white; border-radius:10px; padding:10px 14px; font-weight:700; text-decoration:none; margin-top:auto; width:fit-content; }
+  .card .resource-action:hover { background:var(--teal-dark); }
+  .card .resource-action .play { margin-right:6px; }
+  .back { display:block; text-align:center; margin:24px 0 8px; color:var(--teal); text-decoration:none; font-weight:700; }
+  footer { background:#174b4b; color:white; text-align:center; padding:18px 6%; margin-top: 24px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>🌿 Wellness Resources</h1>
+    <p>Discover supportive ideas for rest, movement, confidence, and everyday care.</p>
+  </header>
+
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search resources..." onkeyup="searchResource()">
+    </div>
+
+    <div class="cards" id="resourceCards">
+      <div class="card">
+        <h2>🧘 Meditation</h2>
+        <p>Try mindful breathing or guided meditation to feel calmer and more focused.</p>
+        <a class="resource-action" href="https://www.youtube.com/results?search_query=guided+meditation+for+beginners" target="_blank" rel="noopener"><span class="play">▶</span>Learn more</a>
+      </div>
+      <div class="card">
+        <h2>🏃 Exercise</h2>
+        <p>Movement helps your body release tension and improve energy, mood, and confidence.</p>
+        <a class="resource-action" href="https://www.youtube.com/results?search_query=beginner+home+exercise+routine" target="_blank" rel="noopener"><span class="play">▶</span>Learn more</a>
+      </div>
+      <div class="card">
+        <h2>🥗 Healthy nutrition</h2>
+        <p>Balanced meals and hydration support both your physical wellbeing and daily energy.</p>
+        <a class="resource-action" href="https://www.youtube.com/results?search_query=healthy+nutrition+tips+for+students" target="_blank" rel="noopener"><span class="play">▶</span>Learn more</a>
+      </div>
+      <div class="card">
+        <h2>😴 Better sleep</h2>
+        <p>Keep a steady routine and reduce screen time at night for better rest.</p>
+        <a class="resource-action" href="https://www.youtube.com/results?search_query=sleep+tips+for+better+rest" target="_blank" rel="noopener"><span class="play">▶</span>Learn more</a>
+      </div>
+      <div class="card">
+        <h2>🧠 Mental health</h2>
+        <p>Talk to someone you trust, take breaks, and ask for help when you need it.</p>
+        <a class="resource-action" href="https://www.youtube.com/results?search_query=mental+health+self+care+for+teens" target="_blank" rel="noopener"><span class="play">▶</span>Learn more</a>
+      </div>
+      <div class="card">
+        <h2>📞 Emergency help</h2>
+        <p>If you or someone you know is in immediate danger, contact emergency services or a trusted adult right away.</p>
+        <a class="resource-action" href="https://www.youtube.com/results?search_query=crisis+support+helpline" target="_blank" rel="noopener"><span class="play">▶</span>Learn more</a>
+      </div>
+    </div>
+  </div>
+
+  <a href="dashboard.html" class="back">⬅ Back to dashboard</a>
+  <footer><p>© 2026 Wellness Companion for Youth · Stay healthy, stay happy</p></footer>
+
+  <script>
+    function searchResource() {
+      const input = document.getElementById('search').value.toLowerCase();
+      const cards = document.getElementsByClassName('card');
+      Array.from(cards).forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Wellness Companion</title>
+  <style>
+    :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+    body { background: linear-gradient(135deg,#f1fffc,#f7fbff); color:#233; padding:24px; }
+    .container { max-width: 1100px; margin:0 auto; background:white; border-radius:22px; padding:24px; box-shadow:0 12px 30px rgba(0,0,0,0.08); }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+    h1 { color:var(--teal-dark); }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+    .stat { background:#f7fcfc; padding:14px; border-radius:14px; border:1px solid #e8f3f2; }
+    .stat strong { display:block; color:var(--teal); font-size:1.3rem; }
+    .sections { display:grid; gap:16px; }
+    .card { background:#f9fcfd; border:1px solid #ebf3f2; border-radius:16px; padding:16px; }
+    .card h2 { color:var(--teal-dark); margin-bottom:8px; }
+    .card p { color:var(--muted); margin-bottom:6px; }
+    .links { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .links a { color:white; background:var(--teal); padding:10px 12px; border-radius:999px; text-decoration:none; font-weight:700; }
+    .links a:hover { background:var(--teal-dark); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <h1>Wellness dashboard</h1>
+      <div class="links">
+        <a href="/mood.html">Mood Tracker</a>
+        <a href="/journal.html">Journal</a>
+        <a href="/goal.html">Goals</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><strong><%= moods.length %></strong><span>Mood entries</span></div>
+      <div class="stat"><strong><%= journals.length %></strong><span>Journal entries</span></div>
+      <div class="stat"><strong><%= goals.length %></strong><span>Goals saved</span></div>
+    </div>
+
+    <div class="sections">
+      <div class="card">
+        <h2>Recent moods</h2>
+        <% if (moods.length > 0) { %>
+          <% moods.forEach(function(mood){ %>
+            <p><strong><%= mood.username %></strong> — <%= mood.mood %></p>
+          <% }) %>
+        <% } else { %>
+          <p>No moods logged yet.</p>
+        <% } %>
+      </div>
+
+      <div class="card">
+        <h2>Recent journals</h2>
+        <% if (journals.length > 0) { %>
+          <% journals.forEach(function(journal){ %>
+            <p><strong><%= journal.title %></strong> by <%= journal.username %></p>
+            <p><%= journal.entry %></p>
+          <% }) %>
+        <% } else { %>
+          <p>No journal entries yet.</p>
+        <% } %>
+      </div>
+
+      <div class="card">
+        <h2>Goals</h2>
+        <% if (goals.length > 0) { %>
+          <% goals.forEach(function(goal){ %>
+            <p><strong><%= goal.goal %></strong> — <%= goal.status %></p>
+          <% }) %>
+        <% } else { %>
+          <p>No goals saved yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar | Wellness Companion</title>
+<style>
+  :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; --ink:#204042; }
+  * { box-sizing:border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+  body { background:linear-gradient(135deg,#ebfffc,#f7fbff); color:#233; }
+  .container { width:min(1160px, 95%); margin:36px auto; background:white; border-radius:24px; padding:28px; box-shadow:0 12px 30px rgba(0,0,0,0.08); }
+  .top { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+  h1 { color:var(--teal-dark); }
+  .today-badge { background:#eaf8f6; color:var(--teal-dark); padding:10px 14px; border-radius:999px; font-weight:700; }
+  .subtitle { text-align:center; color:var(--muted); margin-bottom:20px; }
+  .layout { display:grid; grid-template-columns: 1.15fr 0.85fr; gap:20px; }
+  .panel { background:#f8fcfd; border:1px solid #e9f3f2; border-radius:16px; padding:16px; }
+  .panel h3 { color:var(--teal-dark); margin-bottom:10px; }
+  .month-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .month-bar button { background:var(--teal); border:none; border-radius:10px; color:white; padding:8px 12px; cursor:pointer; font-weight:700; }
+  #monthTitle { color:var(--teal-dark); font-size:1.2rem; font-weight:800; }
+  .calendar { display:grid; grid-template-columns: repeat(7, minmax(34px, 1fr)); gap:8px; margin-top:10px; }
+  .day-name, .day-box { text-align:center; padding:10px; border-radius:10px; }
+  .day-name { font-weight:700; color:var(--teal-dark); background:#edf9f8; }
+  .day-box { background:white; border:1px solid #e7efee; min-height:72px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+  .day-box.today { border:2px solid var(--teal); background:#eaf8f6; }
+  .day-box.important { border-color:#f1b24a; background:#fffaf0; }
+  .day-box.other-month { color:#a0a8a8; opacity:.75; }
+  .day-box .date { font-size:0.88rem; color:var(--teal-dark); font-weight:700; }
+  .tag { display:inline-block; background:#eef8f7; color:var(--teal-dark); padding:4px 6px; font-size:0.72rem; border-radius:999px; margin-top:5px; }
+  .task-list { display:grid; gap:10px; margin-top:10px; }
+  .task-item { background:white; padding:12px; border-radius:10px; border:1px solid #e6efee; }
+  .task-item strong { display:block; color:var(--teal-dark); margin-bottom:6px; }
+  .task-item span { color:var(--muted); font-size:0.95rem; }
+  .important { border-left:4px solid #f1b24a; }
+  .form-grid { display:grid; gap:12px; margin-top:14px; }
+  .form-grid label { display:block; margin-bottom:6px; font-weight:700; color:var(--teal-dark); font-size:0.9rem; }
+  .form-grid input, .form-grid textarea { width:100%; padding:12px; border-radius:10px; border:1px solid #d6eceb; font-size:0.98rem; }
+  .form-grid textarea { min-height:88px; resize:vertical; }
+  .form-grid button { width:100%; margin-top:6px; border:none; border-radius:10px; background:var(--teal); color:white; padding:12px; font-weight:700; cursor:pointer; }
+  .back { display:block; text-align:center; margin-top:16px; color:var(--teal); font-weight:700; text-decoration:none; }
+  @media (max-width:780px) { .layout { grid-template-columns:1fr; } .calendar { grid-template-columns: repeat(7, minmax(30px, 1fr)); } }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <h1>📅 Wellness Calendar</h1>
+      <div class="today-badge" id="todayBadge">Today: --</div>
+    </div>
+    <p class="subtitle">Plan your week, keep important dates in view, and stay on top of your wellness goals.</p>
+
+    <div class="layout">
+      <div class="panel">
+        <div class="month-bar">
+          <button type="button" id="prevMonth">◀</button>
+          <div id="monthTitle"></div>
+          <button type="button" id="nextMonth">▶</button>
+        </div>
+        <div class="calendar" id="calendarGrid"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Today's wellness plan</h3>
+        <div class="task-list" id="planList"></div>
+
+        <div class="form-grid">
+          <div>
+            <label for="planDate">Plan date</label>
+            <input type="date" id="planDate">
+          </div>
+          <div>
+            <label for="planTitle">Plan title</label>
+            <input type="text" id="planTitle" placeholder="e.g. Morning walk">
+          </div>
+          <div>
+            <label for="planDetail">Plan details</label>
+            <textarea id="planDetail" placeholder="Write what you want to do..."></textarea>
+          </div>
+          <div>
+            <label><input type="checkbox" id="importantFlag"> Mark as important</label>
+          </div>
+          <button type="button" id="addPlan">Add plan</button>
+        </div>
+      </div>
+    </div>
+
+    <a href="dashboard.html" class="back">⬅ Back to dashboard</a>
+  </div>
+
+  <script>
+    const today = new Date();
+    const monthTitle = document.getElementById('monthTitle');
+    const calendarGrid = document.getElementById('calendarGrid');
+    const todayBadge = document.getElementById('todayBadge');
+    const planList = document.getElementById('planList');
+
+    let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const plans = [
+      { date: formatDateInput(today), title: 'Morning walk', details: 'Walk 20 minutes and stretch.', important: true },
+      { date: formatDateInput(addDays(today, 1)), title: 'Journaling', details: 'Write 3 reflections.', important: false },
+      { date: formatDateInput(addDays(today, 2)), title: 'Hydration goal', details: 'Drink 8 glasses of water.', important: false },
+      { date: formatDateInput(addDays(today, 6)), title: 'Wellness check-in', details: 'Review mood, journal, and goals.', important: true }
+    ];
+
+    function formatDateInput(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth()+1).padStart(2,'0');
+      const d = String(date.getDate()).padStart(2,'0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function addDays(dateValue, days) {
+      const copy = new Date(dateValue);
+      copy.setDate(copy.getDate() + days);
+      return copy;
+    }
+
+    function renderCalendar() {
+      const year = currentMonth.getFullYear();
+      const month = currentMonth.getMonth();
+      const startDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const daysInPreviousMonth = new Date(year, month, 0).getDate();
+
+      monthTitle.innerText = currentMonth.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+
+      const headers = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      calendarGrid.innerHTML = headers.map(h => `<div class="day-name">${h}</div>`).join('');
+
+      const firstCalendarDay = daysInPreviousMonth - startDay + 1;
+      const totalCells = 42;
+
+      for (let i = 0; i < totalCells; i++) {
+        const dayNumber = i - startDay + 1;
+        const date = new Date(year, month, dayNumber);
+        const cell = document.createElement('div');
+
+        if (dayNumber <= 0) {
+          date.setMonth(month - 1);
+          date.setDate(firstCalendarDay + i);
+          cell.className = 'day-box other-month';
+        } else if (dayNumber > daysInMonth) {
+          date.setMonth(month + 1);
+          date.setDate(dayNumber - daysInMonth);
+          cell.className = 'day-box other-month';
+        } else {
+          cell.className = 'day-box';
+        }
+
+        if (formatDateInput(date) === formatDateInput(today) && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+          cell.classList.add('today');
+        }
+
+        const matchingPlans = plans.filter(plan => plan.date === formatDateInput(date));
+        if (matchingPlans.length > 0) {
+          cell.setAttribute('title', matchingPlans.map(plan => plan.title).join(', '));
+        }
+
+        if (matchingPlans.some(plan => plan.important)) {
+          cell.classList.add('important');
+        }
+
+        cell.innerHTML = `<span class="date">${date.getDate()}</span>
+          ${matchingPlans.map(plan => `<span class="tag">${plan.important ? '★ ' : ''}${plan.title}</span>`).join('')}`;
+
+        calendarGrid.appendChild(cell);
+      }
+    }
+
+    function renderPlans() {
+      const currentDate = formatDateInput(new Date());
+      const todaysPlans = plans.filter(plan => plan.date === currentDate);
+
+      todayBadge.innerText = `Today: ${today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}`;
+
+      if (todaysPlans.length === 0) {
+        planList.innerHTML = `<div class="task-item"><strong>No plans yet</strong><span>Enjoy a quiet moment for yourself.</span></div>`;
+      } else {
+        planList.innerHTML = todaysPlans.map(plan => `
+          <div class="task-item ${plan.important ? 'important' : ''}">
+            <strong>${plan.important ? '★ ' : ''}${plan.title}</strong>
+            <span>${plan.details}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    document.getElementById('prevMonth').addEventListener('click', () => {
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    document.getElementById('addPlan').addEventListener('click', () => {
+      const planDate = document.getElementById('planDate').value;
+      const planTitle = document.getElementById('planTitle').value.trim();
+      const planDetail = document.getElementById('planDetail').value.trim();
+      const important = document.getElementById('importantFlag').checked;
+
+      if (!planDate || !planTitle) {
+        alert('Please select a date and add a plan title.');
+        return;
+      }
+
+      plans.push({ date: planDate, title: planTitle, details: planDetail || 'Wellness plan', important });
+      document.getElementById('planTitle').value = '';
+      document.getElementById('planDetail').value = '';
+      document.getElementById('importantFlag').checked = false;
+
+      renderCalendar();
+      renderPlans();
+    });
+
+    renderCalendar();
+    renderPlans();
+  </script>
+</body>
+</html>

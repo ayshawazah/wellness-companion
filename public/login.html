@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Wellness Companion</title>
+<style>
+  :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; }
+  * { box-sizing:border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+  body { min-height:100vh; display:flex; justify-content:center; align-items:center; background:linear-gradient(135deg,#dff8f4,#eaf7ff); padding:20px; }
+  .card { width:min(420px,100%); background:white; border-radius:20px; padding:28px; box-shadow:0 12px 30px rgba(0,0,0,0.08); }
+  h2 { text-align:center; color:var(--teal-dark); margin-bottom:8px; }
+  p { text-align:center; color:var(--muted); margin-bottom:18px; }
+  .field { margin-bottom: 12px; }
+  label { display:block; margin-bottom:6px; font-weight:700; color:var(--teal-dark); }
+  input { width:100%; padding:12px 13px; border:1px solid #d7e6e6; border-radius:10px; font-size:1rem; }
+  .row { display:flex; justify-content:space-between; align-items:center; font-size:0.95rem; color:var(--muted); margin: 8px 0 16px; }
+  button { width:100%; padding:12px 14px; border:none; border-radius:10px; background:var(--teal); color:white; font-weight:700; cursor:pointer; }
+  button:hover { background:var(--teal-dark); }
+  .link { text-align:center; margin-top: 16px; color:var(--muted); }
+  .link a { color:var(--teal); font-weight:700; text-decoration:none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Welcome back</h2>
+    <p>Log in to continue your wellness journey.</p>
+    <form action="/login" method="post">
+      <div class="field"><label>Username</label><input type="text" name="username" placeholder="Enter your username" required></div>
+      <div class="field"><label>Password</label><input type="password" id="password" name="password" placeholder="Enter your password" required></div>
+      <div class="row"><label><input type="checkbox" onclick="showPassword()"> Show password</label><a href="#" style="color:var(--teal);">Forgot password?</a></div>
+      <button type="submit">Login</button>
+    </form>
+    <div class="link">Don’t have an account? <a href="register.html">Register here</a></div>
+  </div>
+  <script>
+    function showPassword() {
+      const x = document.getElementById('password');
+      x.type = x.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+</body>
+</html>

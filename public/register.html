@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | Wellness Companion</title>
+<style>
+  :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; }
+  * { box-sizing:border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+  body { min-height:100vh; display:flex; justify-content:center; align-items:center; background:linear-gradient(135deg,#dff8f4,#eaf7ff); padding:20px; }
+  .card { width:min(460px,100%); background:white; border-radius:20px; padding:28px; box-shadow:0 12px 30px rgba(0,0,0,0.08); }
+  h2 { text-align:center; color:var(--teal-dark); margin-bottom:8px; }
+  p { text-align:center; color:var(--muted); margin-bottom:16px; }
+  .field { margin-bottom: 12px; }
+  label { display:block; margin-bottom:6px; font-weight:700; color:var(--teal-dark); }
+  input, select { width:100%; padding:12px 13px; border:1px solid #d7e6e6; border-radius:10px; font-size:1rem; }
+  .checkbox { font-size:0.95rem; color:var(--muted); margin: 8px 0 14px; }
+  button { width:100%; padding:12px 14px; border:none; border-radius:10px; background:var(--teal); color:white; font-weight:700; cursor:pointer; }
+  button:hover { background:var(--teal-dark); }
+  .link { text-align:center; margin-top: 16px; color:var(--muted); }
+  .link a { color:var(--teal); font-weight:700; text-decoration:none; }
+  .error { color:#c0392b; text-align:center; margin-top: 10px; min-height: 20px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Create account</h2>
+    <p>Start your wellness journey with a calm, confident first step.</p>
+    <form action="/register" method="post" onsubmit="return validateForm()">
+      <div class="field"><label>Full name</label><input type="text" id="name" name="name" placeholder="Your name" required></div>
+      <div class="field"><label>Email address</label><input type="email" id="email" name="email" placeholder="you@example.com" required></div>
+      <div class="field"><label>Username</label><input type="text" id="username" name="username" placeholder="Choose a username" required></div>
+      <div class="field"><label>Gender</label><select name="gender" required><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+      <div class="field"><label>Age</label><input type="number" name="age" min="10" max="100" required></div>
+      <div class="field"><label>Password</label><input type="password" id="password" name="password" placeholder="Create a password" required></div>
+      <div class="field"><label>Confirm password</label><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repeat your password" required></div>
+      <div class="checkbox"><label><input type="checkbox" required> I agree to the Terms & Conditions</label></div>
+      <button type="submit">Register</button>
+      <p id="error" class="error"></p>
+    </form>
+    <div class="link">Already have an account? <a href="login.html">Login here</a></div>
+  </div>
+  <script>
+    function validateForm() {
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmPassword').value;
+      const error = document.getElementById('error');
+      if (password !== confirm) {
+        error.innerText = 'Passwords do not match.';
+        return false;
+      }
+      error.innerText = '';
+      return true;
+    }
+  </script>
+</body>
+</html>

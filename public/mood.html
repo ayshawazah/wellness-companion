@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Tracker | Wellness Companion</title>
+<style>
+  :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; }
+  * { box-sizing: border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
+  body { background: linear-gradient(135deg,#f2fffc,#f7fbff); color:#233; }
+  header { background: linear-gradient(90deg, var(--teal), #0d8f8f); color:white; padding:22px 6%; text-align:center; font-size:1.6rem; font-weight:800; }
+  .container { max-width: 900px; margin: 36px auto; background:white; border-radius: 22px; padding: 30px; box-shadow:0 12px 30px rgba(0,0,0,0.08); }
+  .title { text-align:center; color: var(--teal-dark); margin-bottom: 8px; }
+  .subtitle { text-align:center; color: var(--muted); margin-bottom: 24px; }
+  .moods { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .mood { padding:16px; text-align:center; border:2px solid #e2eceb; border-radius: 14px; cursor:pointer; transition: all 0.2s ease; font-size: 1rem; background: #fbfeff; }
+  .mood:hover { transform: translateY(-3px); border-color: var(--teal); }
+  .mood.selected { background: var(--teal); color:white; border-color: var(--teal); }
+  form { display:grid; gap: 14px; }
+  .field label { display:block; font-weight: 700; margin-bottom: 6px; color: var(--teal-dark); }
+  input, textarea, select { width:100%; padding:12px 14px; border:1px solid #d7e6e6; border-radius: 10px; font-size: 1rem; }
+  textarea { min-height: 120px; resize: vertical; }
+  .actions { display:flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  button { flex:1; padding: 12px 16px; border:none; border-radius: 10px; background: var(--teal); color:white; cursor:pointer; font-weight:700; font-size: 1rem; }
+  button.secondary { background:#e6f5f3; color: var(--teal-dark); }
+  .feedback { margin-top: 14px; padding: 12px 14px; background:#eaf8f6; border-radius:10px; color: var(--teal-dark); display:none; }
+  .hint { margin-top: 18px; background:#f7fbff; border-left: 4px solid var(--teal); padding: 12px 14px; border-radius: 8px; color: var(--muted); }
+  .back { display:inline-block; margin-top: 20px; color: var(--teal); font-weight:700; text-decoration:none; }
+</style>
+</head>
+<body>
+  <header>😊 Mood Tracker</header>
+  <div class="container">
+    <h2 class="title">How are you feeling today?</h2>
+    <p class="subtitle">Choose a mood and jot down a quick note so your wellness journey feels more aware and intentional.</p>
+
+    <form action="/mood" method="post" onsubmit="return validateMoodForm()">
+      <input type="hidden" name="mood" id="moodValue">
+      <div class="moods">
+        <div class="mood" onclick="selectMood(this, 'Happy')">😊<br>Happy</div>
+        <div class="mood" onclick="selectMood(this, 'Calm')">😌<br>Calm</div>
+        <div class="mood" onclick="selectMood(this, 'Neutral')">😐<br>Neutral</div>
+        <div class="mood" onclick="selectMood(this, 'Sad')">😔<br>Sad</div>
+        <div class="mood" onclick="selectMood(this, 'Stressed')">😟<br>Stressed</div>
+        <div class="mood" onclick="selectMood(this, 'Angry')">😡<br>Angry</div>
+      </div>
+
+      <div class="field">
+        <label for="username">Your name</label>
+        <input type="text" id="username" name="username" placeholder="Enter your name" required>
+      </div>
+
+      <div class="field">
+        <label for="note">What happened today?</label>
+        <textarea id="note" name="note" placeholder="Write a few words about your day..."></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Save mood</button>
+        <button type="button" class="secondary" onclick="clearMoodForm()">Clear</button>
+      </div>
+    </form>
+
+    <div class="feedback" id="feedback">Mood saved. Thank you for checking in with yourself.</div>
+    <div class="hint">Tip: A short daily mood check-in can make it easier to spot changes and notice what helps you feel better.</div>
+    <a href="dashboard.html" class="back">⬅ Back to dashboard</a>
+  </div>
+
+  <script>
+    let selectedMood = "";
+
+    function selectMood(element, mood) {
+      selectedMood = mood;
+      document.getElementById("moodValue").value = mood;
+      document.querySelectorAll(".mood").forEach(item => item.classList.remove("selected"));
+      element.classList.add("selected");
+    }
+
+    function validateMoodForm() {
+      if (!selectedMood) {
+        alert("Please select a mood first.");
+        return false;
+      }
+      const feedback = document.getElementById("feedback");
+      feedback.style.display = "block";
+      feedback.innerText = `Mood saved: ${selectedMood}. Thanks for checking in.`;
+      return true;
+    }
+
+    function clearMoodForm() {
+      document.getElementById("moodValue").value = "";
+      document.getElementById("username").value = "";
+      document.getElementById("note").value = "";
+      document.querySelectorAll(".mood").forEach(item => item.classList.remove("selected"));
+      selectedMood = "";
+      document.getElementById("feedback").style.display = "none";
+    }
+  </script>
+</body>
+</html>
