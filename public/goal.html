@@ -67,7 +67,8 @@
       </div>
 
       <div class="panel">
-        <h3>Today’s task tracking</h3>
+        <h3>Today’s task </h3>
+        
         <div class="add-habit">
           <input type="text" id="newHabitInput" placeholder="Enter todays task">
           <button type="button" onclick="addCustomHabit()">Add</button>
@@ -78,7 +79,8 @@
           <li class="task-item"><span>Review wellness goals</span><button onclick="removeTask(this)">Done</button></li>
         </ul>
 
-        <form action="/goal" method="post">
+        <form action="/goal" method="POST">
+          <input type="hidden" name="username" id="username">
               <div class="input-group">
             <input type="text" name="goal" placeholder="Enter main task and due date" required>
           </div>
@@ -134,5 +136,11 @@
       button.parentElement.remove();
     }
   </script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+
+    document.getElementById("username").value = username || "";
+</script>
 </body>
 </html>

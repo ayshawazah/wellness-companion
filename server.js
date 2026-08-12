@@ -1,18 +1,40 @@
+require("dotenv").config();
+const dns = require("dns");
+
+dns.setServers([
+    "8.8.8.8",
+    "1.1.1.1"
+]);
+const mongoose = require("mongoose");
+const express = require("express");
 const Goal = require("./models/goal");
 const Journal = require("./models/journal");
 const Mood = require("./models/mood");
 const User = require("./models/user");
-const mongoose = require("mongoose");
-const express = require("express");
+
 
 const app = express();
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+        console.log("MongoDB Connected");
+    })
+    .catch(err => {
+        console.log("MongoDB Connection Error:", err);
+    });
+
+
+
 app.set("view engine", "ejs");
+
 const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
+
+
+// REGISTER
 app.post("/register", async (req, res) => {
     try {
         const user = new User(req.body);
@@ -27,6 +49,9 @@ app.post("/register", async (req, res) => {
         res.send("Error Saving User");
     }
 });
+
+
+// LOGIN
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -44,6 +69,9 @@ app.post("/login", async (req, res) => {
         res.send("Error");
     }
 });
+
+
+// MOOD
 app.post("/mood", async (req, res) => {
     try {
         const mood = new Mood({
@@ -53,12 +81,17 @@ app.post("/mood", async (req, res) => {
 
         await mood.save();
 
-        res.redirect("/dashboard");
+        console.log("Mood Saved Successfully");
+
+        res.redirect(`/dashboard?username=${encodeURIComponent(req.body.username)}`);
     } catch (err) {
         console.log(err);
         res.send("Error Saving Mood");
     }
 });
+
+
+// JOURNAL
 app.post("/journal", async (req, res) => {
     try {
         const journal = new Journal({
@@ -70,46 +103,66 @@ app.post("/journal", async (req, res) => {
         await journal.save();
 
         console.log("Journal Saved Successfully");
-        res.redirect("/dashboard");
+
+        res.redirect(`/dashboard?username=${encodeURIComponent(req.body.username)}`);
     } catch (err) {
         console.log(err);
         res.send("Error Saving Journal");
     }
 });
+
+
+// GOAL
 app.post("/goal", async (req, res) => {
     try {
-        const goal = new Goal({
-            username: req.body.username,
-            goal: req.body.goal,
-            status: req.body.status
+        const { username, goal, status } = req.body;
+
+        console.log("Username:", username);
+        console.log("Goal:", goal);
+        console.log("Status:", status);
+
+        const newGoal = new Goal({
+            username: username,
+            goal: goal,
+            status: status
         });
 
-        await goal.save();
+        await newGoal.save();
 
         console.log("Goal Saved Successfully");
-        res.redirect("/dashboard");
+
+        res.redirect(`/dashboard?username=${encodeURIComponent(username)}`);
+
     } catch (err) {
         console.log(err);
-        res.send("Error Saving Goal");
+        res.send("Error saving goal");
+    }
+
+});
+
+
+// DASHBOARD
+app.get("/dashboard", async (req, res) => {
+    try {
+        const username = req.query.username;
+
+        const moods = await Mood.find({ username });
+        const journals = await Journal.find({ username });
+        const goals = await Goal.find({ username });
+
+        res.render("dashboard", {
+            moods,
+            journals,
+            goals
+        });
+    } catch (err) {
+        console.log(err);
+        res.send("Error Loading Dashboard");
     }
 });
-app.get("/dashboard", async (req, res) => {
 
-    const moods = await Mood.find();
-    const journals = await Journal.find();
-    const goals = await Goal.find();
 
-    res.render("dashboard", {
-        moods,
-        journals,
-        goals
-    });
-
-});
-mongoose.connect("process.env.MONGODB_URI")
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+// START SERVER
 app.listen(PORT, () => {
-    console.log(`Server running at port${PORT}`);
+    console.log(`Server running at port ${PORT}`);
 });
-require("dotenv").config();
