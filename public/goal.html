@@ -137,10 +137,15 @@
     }
   </script>
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get("username");
+    let username = localStorage.getItem("username") || "";
 
-    document.getElementById("username").value = username || "";
+    document.getElementById("username").value = username;
+
+    console.log("Username for goal:", username);
+
+    if (!username) {
+        alert("Username not found. Please login again.");
+    }
 </script>
 </body>
 </html>

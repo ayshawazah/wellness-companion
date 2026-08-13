@@ -115,6 +115,7 @@ app.post("/journal", async (req, res) => {
 // GOAL
 app.post("/goal", async (req, res) => {
     try {
+        console.log("GOAL FORM DATA:", req.body);
         const { username, goal, status } = req.body;
 
         console.log("Username:", username);

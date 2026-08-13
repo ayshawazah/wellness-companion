@@ -88,5 +88,16 @@
       document.getElementById('preview').style.display = 'none';
     }
   </script>
+  <script>
+    let username = localStorage.getItem("username") || "";
+
+    document.getElementById("username").value = username;
+
+    console.log("Journal username:", username);
+
+    if (!username) {
+        alert("Username not found. Please login again.");
+    }
+</script>
 </body>
 </html>

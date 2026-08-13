@@ -51,7 +51,7 @@
       </div>
 
       <div class="field">
-        <label for="note">What happened today?</label>
+        <label for="note">express your feelings</label>
         <textarea id="note" name="note" placeholder="Write a few words about your day..."></textarea>
       </div>
 
@@ -96,5 +96,16 @@
       document.getElementById("feedback").style.display = "none";
     }
   </script>
+  <script>
+    let username = localStorage.getItem("username") || "";
+
+    document.getElementById("username").value = username;
+
+    console.log("Mood username:", username);
+
+    if (!username) {
+        alert("Username not found. Please login again.");
+    }
+</script>
 </body>
 </html>
