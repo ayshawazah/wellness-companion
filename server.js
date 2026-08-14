@@ -50,7 +50,7 @@ app.post("/login", async (req, res) => {
         const user = await User.findOne({ username, password });
 
         if (user) {
-            const homeUrl = `/dashboard.html?username=${encodeURIComponent(user.username)}`;
+            const homeUrl =("/dashboard.html?username"=${encodeURIComponent(user.username)});
             res.redirect(homeUrl);
         } else {
             res.send("Invalid Username or Password");
