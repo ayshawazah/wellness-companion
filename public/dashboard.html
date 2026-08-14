@@ -43,7 +43,7 @@
       <h2>🌿 Wellness Hub</h2>
       <ul>
         <li><a href="dashboard.html">🏠 Dashboard</a></li>
-        <li><a href="mood.html">😊 Mood Tracker</a></li>
+        <li><a href="mood.html">😊 daily emotions</a></li>
         <li><a href="journal.html">📖 Journal</a></li>
         <li><a href="goal.html">🎯 Goals</a></li>
         <li><a href="calendar.html">📅 Calendar</a></li>
@@ -55,7 +55,8 @@
 
     <main class="main">
       <div class="topbar">
-        <h1>Welcome back, User 👋</h1>
+        <h2>Welcome back, <span id="username">User</span>!</h2>
+        
         <div class="chip">Today is a fresh chance to care for yourself</div>
       </div>
 
@@ -124,5 +125,13 @@
       <footer>© 2026 Wellness Companion for Youth</footer>
     </main>
   </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+
+    if (username) {
+        document.getElementById("userName").textContent = username;
+    }
+</script>
 </body>
 </html>
