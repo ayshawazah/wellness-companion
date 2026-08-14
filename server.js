@@ -14,15 +14,6 @@ const User = require("./models/user");
 
 
 const app = express();
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {
-        console.log("MongoDB Connected");
-    })
-    .catch(err => {
-        console.log("MongoDB Connection Error:", err);
-    });
-
-
 
 app.set("view engine", "ejs");
 
@@ -162,8 +153,10 @@ app.get("/dashboard", async (req, res) => {
     }
 });
 
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.log("MongoDB Connection Error:", err));
 
-// START SERVER
-app.listen(PORT, () => {
-    console.log(`Server running at port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
 });

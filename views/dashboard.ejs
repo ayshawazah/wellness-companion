@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Wellness Companion</title>
   <style>
+    .home-btn {
+    display: inline-block;
+    background: #008c8c;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.home-btn:hover {
+    background: #006f6f;
+}
     :root { --teal:#008080; --teal-dark:#00695c; --bg:#f4f8fb; --muted:#6b7a86; }
     * { box-sizing:border-box; margin:0; padding:0; font-family:"Segoe UI", Arial, sans-serif; }
     body { background: linear-gradient(135deg,#f1fffc,#f7fbff); color:#233; padding:24px; }
@@ -26,6 +41,8 @@
 <body>
   <div class="container">
     <div class="top">
+      <a href="/dashboard.html" class="home-btn">← Home</a>
+
       <h1>Wellness dashboard</h1>
       <div class="links">
         <a href="/mood.html">Mood Tracker</a>
